@@ -1,0 +1,10 @@
+Qdig - Quick Digital Image Gallery
+==================================
+TODO.txt 
+
+This is the stable version of Qdig.  Ideally there's nothing "TODO"
+in this version.  See the development (beta) version for the list of
+development TODO items.  See also the Qdig forums on SourceForge.net.
+http://sourceforge.net/forum/?group_id=69837
+
+$Id: TODO.txt,v 1.28 2005/04/02 07:34:23 haganfox Exp $

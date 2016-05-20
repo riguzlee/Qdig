@@ -1,0 +1,219 @@
+Qdig - Quick Digital Image Gallery 
+==================================
+INSTALL.txt
+
+There are many ways to install Qdig.  This document has a few ideas
+to help get you started.
+
+
+Contents:
+
+* Basic Instructions
+* Basic Instructions (with writable-tree and caption-edit setup)
+* Quick Setup Instructions (Drag, drop, [set up a directory,] browse)
+* Establishing The Writable Tree
+* Command Line Step-By-Step Instructions
+* Customizing Qdig
+* The Gallery Administration Script (admin.php)
+* Troubleshooting
+
+
+Basic Instructions:
+
+- Place the script (index.php) in a web-accessible directory with some
+  image files and/or subdirectories that contain image files.
+- Browse the directory's URL.
+
+
+Basic Instructions (with writable-tree and caption-edit setup):
+
+- Place the script (index.php) in a web-accessible directory with some
+  image files and/or subdirectories that contain image files.
+- Create the qdig-files subdirectory if it doesn't already exist.
+- Temporarily set world-writable (2777) permissions on the subdirectory.
+- Browse the gallery directory's URL once.
+- Set permissions on the subdirectory to something reasonable (like 0755).
+- Place the admin.php script into the same directory as index.php.
+- Edit admin.php script and add your username and password.
+- Browse the directory's URL.
+
+
+Quick Setup Instructions (Drag, drop, [set up a directory,] browse):
+
+- On your desktop computer, create a folder with some image files 
+  and/or subfolders with images that will become your gallery.
+- Unpack the .zip version of the distribution archive and put the Qdig
+  script (index.php) and its icon file (qdig-camera.ico) in the top
+  folder of the directory tree.
+- Using your favorite SCP or FTP file transfer program (FileZilla and
+  WinSCP work well), drag the whole tree to your server.
+- Optionally, set up the directory for writable files (see below).
+- Optionally, install admin.php for editing captions:
+  - Edit admin.php to add your username and password.
+  - Put admin.php in the same directory on the server as index.php.
+- Voilà!  You can browse through the photos.
+
+
+Establishing The Writable Tree:
+
+The writable directory tree is where Qdig writes converted images
+(thumbnails and resized versions of large images) and empty caption
+.txt files.
+
+Note: Qdig can use either Image Magick or PHP's GD extensions to
+convert (resample) images.  One of these needs to be available for
+image conversion to work.
+
+Establishing the writable directory tree is an easy procedure.
+
+- Create the qdig-files subdirectory if it doesn't already exist.
+- Temporarily set world-writable (2777) permissions on it.
+- Browse the gallery directory's URL once.
+- Set permissions on the subdirectory to something reasonable (0755).
+
+More verbosely,
+
+- In your main gallery directory create a subdirectory, called
+  qdig-files by default, that will be the top directory of the
+  writable tree.  You can do this with your FTP or SCP file management
+  program by creating a New Folder named qdig-files, or from a
+  command prompt with this command: `mkdir qdig-files'.
+- Temporarily set world-writable permissions on the directory.  If
+  possible, enable the "setgid bit" on the directory (2777 permissions,
+  or drwxrwsrwx).  The command to do this is:  `chmod 2777 qdig-files'
+  If you don't have command-line access, use your file management
+  program to set at least 777 (drwxrwxrwx) world-writable permissions,
+  or you can try using a cron job to set 2777 permissions.
+- Use your web browser to visit your gallery's location once. When you
+  do, two writable subdirectories will be created for you, one for
+  captions and one for converted (resampled) image files.
+- Now remove the world-writable permissions on the qdig-files directory.
+  Set permissions to something reasonable, like 0755 (drwxr-xr-x).
+  The command to do this is:  `chmod 0755 qdig-files'
+
+
+Command Line Step-By-Step Instructions:
+
+Here are example instructions for creating an empty Qdig gallery, ready
+for images.  Of course you will need to adjust the locations of the html
+document root and Qdig tarball file.
+
+cd ~/public_html                   # Change the pwd to your document root.
+mkdir photos                       # Create a gallery directory.
+cd photos                          # Move to the directory.
+tar -zxvf ~/tmp/qdig-1.x.x.tar.gz  # Unzip the tarball.
+chmod 700 qdig/                    # Restrict access to the original files.
+cp qdig/index.php .                # Copy the index.php file.
+mkdir -p qdig-files                # Create the qdig-files directory.
+chmod 2777 qdig-files              # Set writable/setgid permissions.
+# (Browse the gallery URL)         # Allow Qdig to create directories.
+chmod 0755 qdig-files              # Set non-world-writable permissions.
+
+At this point your gallery is ready to go.  You can do some customization by
+editing index.php and you can manage your images and comments using your
+favorite FTP or SCP client.  If you want to use the new on-the-fly caption
+editing feature, install the gallery management script:
+
+cp qdig/admin.php .                # Copy the admin script file.
+cp qdig/qdig-admin.ico .           # Copy the admin script icon.
+# (Edit admin.php)                 # Add your username/password pair.
+
+Once you have your gallery nicely customized you may want to create a
+text file with the changes you made when you edited the script.
+
+# Save settings changes
+diff qdig/index.php index.php >qdig-settings.diff
+chmod 600 qdig-settings.diff       # Restrict access to the file.
+
+Optionally, you can delete the Qdig distribution files:
+
+rm -rf qdig/                       # Delete Qdig distribution files.
+
+Here's what your new empty gallery might look like:
+
+photos/
+|-- index.php
+`-- qdig-files/
+    |-- Security_Check_File--Safe_To_Delete
+    |-- captions/
+    `-- converted-images/
+
+At this point you can manage your Qdig galleries using your favorite
+FTP or SCP client or by simply adding/deleting images and gallery
+directories on the filesystem using the command-line interface.
+
+Qdig will create empty .txt caption files in the qdig-files/captions/
+directory.  If you don't want captions, just delete that directory.
+
+Thumbnails and alternate-size images will be written in
+qdig-files/converted-images/.  Likewise, you can disable image
+conversion by deleting the directory.
+
+Here's what your gallery might look like after you install admin.php
+(for editing captions) delete the security-check file:
+
+photos/
+|-- admin.php
+|-- index.php
+|-- qdig-admin.ico
+`-- qdig-files/
+    |-- captions/
+    `-- converted-images/
+
+
+Customizing Qdig:
+
+Qdig has dozens of configurable settings.  They are briefly explained
+in comments in the script.  Edit the script and configure some settings.
+Experiment and have fun.  Since Qdig is a one-file program, your
+changes will not carry forward if you update the script to a newer
+version.  This may change in the future, but for now realize that
+you'll need to re-establish your custom settings if you upgrade.
+
+
+The Gallery Administration Script (admin.php):
+
+Starting with Qdig 1.2.0, admin.php has been re-purposed to
+allow you to edit image captions on-the-fly from image display
+pages.  These days it's not useful for much other than that.
+Use your favorite FTP/SCP client to manage your Qdig galleries.
+
+Please note: admin.php is not for configuring Qdig settings.
+
+You may also need the admin tool if you are unable to set 2777
+permissions on the root folder of the writable tree during
+installation, settling for 777 permissions instead.  If that
+happens, files and directories created by Qdig are owned and
+group-owned by the web server daemon's default UID and GID.
+You cannot delete or modify them from the command line or
+via FTP/SCP but you can delete or modify them using admin.php.
+
+Installing the gallery administration script is an easy procedure.
+
+- Place the script (admin.php) into the same directory as index.php.
+- Use a text editor to edit the script and add your username and a
+  good password.  (There's no default password for security reasons.)
+- Optionally, place icon file (qdig-admin.ico) in the same directory.
+
+
+Troubleshooting:
+
+If you're not getting the results you expect you can enable diagnostic
+messages by setting $diag_messages to TRUE.  This will cause the script
+to display several lines of information at the bottom of gallery pages
+that can be very helpful for getting your gallery up and running the
+way you want.
+See http://qdig.sourceforge.net/Support/DiagnosticMessages
+
+If you are not seeing thumbnails and you are expecting them, make sure
+you are requesting thumbs view by either having "Qiv=thumbs" in the URL
+or having no query string (the "?" and everything after it deleted).
+
+If your Fedora Core 3 server will not write files, see this page:
+http://qdig.sourceforge.net/Support/FedoraSELinux
+
+If your server is running in PHP Safe Mode, see this page:
+http://qdig.sourceforge.net/Support/PHPSafeMode
+
+
+$Id: INSTALL.txt,v 1.20 2005/05/29 03:23:18 haganfox Exp $

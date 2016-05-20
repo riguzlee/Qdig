@@ -1,0 +1,739 @@
+Qdig - Quick Digital Image Gallery
+==================================
+CHANGELOG.txt
+
+2007-02-10
+Improved register_globals protection.
+Now disallowing some special characters in the query string (original
+  security alert by nuffsaid@newbslove.us).
+Made some incremental improvements to path_helper.php and rm_tree.php.
+  
+2006-06-24
+Corrected code that exposed vulnerability to cross-site scripting when
+  running on some web servers (reported by http://seclab.tuwien.ac.at/).
+Updated to the latest version of path_helper.php .
+
+2006-04-15
+Improved debugging code. The script will throw more errors in when
+  $diag_messages is TRUE and fewer when $diag_messages is FALSE.
+Improved the securityExit() function.  It now has a <title> and returns
+  a HTTP "403 Forbidden" status.
+Smoothed some of the rough edges of rm_tree.php.
+Added a path_helper.php script to the distribution for helping match URL
+  and filesystem paths.
+
+2006-01-07
+Adapted to new syntax requirement to avoid Fatal Errors in PHP >=5.0.5.
+
+2005-05-28
+Ported some Navigation Row sizer code from qdig-devel version.
+Added $header['css_user_def'] which can be used to place any arbitrary CSS
+  rules at the end of <style> section of the HTML header.
+
+2005-04-28
+Added a missing language setting for "Default Size:".
+
+2005-04-26
+Made a minor change to admin.php to avoid an error message.
+
+2005-04-23
+Deleted some spaces to reduce the file size.
+Added $is_included and $header['force_ena']/['force_disa'] to diag messages.
+
+2005-04-21
+Fixed security message PHP warnings due to / in path.
+Fixed strange disp_size array problem (changing the name made it resume
+  predictable operation) and NavBar bracket vs. vertical bar chooser.
+
+2005-04-19
+Added a script timer to the diagnostic messages.
+PHP's maximum execution time is set on non-Safe Mode servers.
+Reworked the OS detection code. It should be foolproof now.
+Improved the include() detection code. Hopefully it's foolproof now.
+Added new settings so disabling Navigation Rows is easier.
+Improved the diagnostic messages.  Now reporting the $platform (OS)
+  and some other new information, as well as improving text wrapping. 
+Added some code to format the requested image as a click-to-close popup.
+Added a homemade REQUEST_URI for Win32 servers, since they don't have one.
+Added a filename-in-title option, enabled by default, for stand-alone Qdig.
+Reworked imageThumbsLinks() function.  Thumbs pages are now much quicker.
+Improved "Check for IM or GD" logic.  Now it's simpler and more reliable.
+Added an $exclude_gif Server Compatibility setting for excluding GIF images.
+Added a new embedded clear-dog GIF image (qdig_url?image=clear-dot).
+Now if a thumbnail is missing its place is occupied by a clear-dot GIF
+  with the dimensions of the would-be thumbnail image.
+Replaced <center> tags with CSS style attributes in navRow() function.
+Sidebar namelinks <table>-within-a-<div> is now a single <div>.
+Added a sidebar height setting. Overflow results in scrollable list.
+Sidebar links are now displayed without filename extensions.
+Performed table-ectomy on the captionTable() (now captionBlock()) function.
+Grayout color no longer defaults so it can be overridden using a stylesheet.
+Added class="qdig-grayout" attribute and corresponding .qdig-grayout {} rule.
+Refined the three path settings and put them in their own settings section.
+  Renamed $abs_fs_path to $fs_base_path.
+  Renamed $abs_url_path to $url_base_path.
+  Added some base_path diagnostic messages.
+The URL and filesystem base paths are now automatically cleaned up/verified.
+Generating on-the-fly thumbnails now works when the base paths are set.
+Added some special instructions for "777" permissions to the Security Check.
+Added a new $img_link['wrap_up'] setting, enabled by default, that links
+  the last image in a gallery directory to the directory one level up.
+
+2005-04-07
+Reworked error reporting.  Now we're setting a Qdig-preferred level of
+  reporting (E_ALL ^E_NOTICE), then setting it back before exiting.
+Added not-seeing-thumbs hint to the troubleshooting section of INSTALL.txt.
+Completely rewrote the aging and decrepit Navigation Row sizer code.
+Improved code to get globals and set the $qdig_url variable.  The new
+  way $qdig_url is guessed should increase chances it'll Just Work.
+Improved the code to detect whether the script is included or not.
+Improved Diagnostic Messages. Now providing a link to $qdig_url.
+Added settings for converted-images and captions subdirectory names.
+Added $pre_gallery and $post_gallery variables to use for injecting content.
+  
+2005-04-02
+Now admin.php works when you have apostrophes in directory names.
+Changed the default "directory-is-new" flag from an asterisk to "New" in
+  small black letters on a yellow background, which looks icon-like.
+Added an $excl_img_pattern setting that excludes images if they contain
+  certain text in the filename.  Default text '_thumb'.
+Added an absolute-path option.  You can now make galleries using images
+  in a specific directory elsewhere (that is, outside what would normally
+  be the gallery tree) by specifying the filesystem and URL locations of
+  the directory.
+Added a setting to force output of HTML headers and footers.  Now they
+  can be forced on or off.
+Added a $qdig_url Server Compatibility setting for specifying a URL path
+  to the script for compatibility with URL rewriting (mod_rewrite).
+Improved Qdig's behavior on servers running with PHP Safe Mode enabled.
+Added Safe Mode detection to the diagnostic messages.
+Improved compatibility with servers running with PHP's open_basedir
+  directive defined.
+Now the selected size or temporary size must exist and be enabled for
+  display.  If not, the default size is used (for $Qis) or temporary size
+  is ignored (for $Qtmp).
+Added capability for styling the thumbnail for the currently displayed
+  image differently from the rest of the thumbnails.  (Requested by Jeremy
+  Smith, assistance by GloryFish.)
+Thumbnail wrapping should now be the same whether Safe Mode enabled or not.
+Added the ability to link the displayed image directly to the full size
+  image file.  (Requested by Matthias, GloryFish, David B. Nagle.)
+Changed the preferred caption font to Verdana so captions will be easier
+  to read.
+Added configurable CSS border settings for thumbnail images.
+Added configurable CSS settings for the current-image thumbnail.
+Added configurable CSS opacity settings that may be omitted for cross-
+  browser consistency and improved CSS compatibility.
+Added extra diagnostic message for alerting Fedora users about the
+  SELinux policy for Apache.
+Added an option to specify an intra-page #anchor in URLs Qdig generates.
+  Added  an id="qdig" attribute to the gallery table so you can jump to a
+  gallery if it's embedded in another page.  (Feature suggest by Anton
+  (Cougar).  Patch submitted by David B. Nagle.)
+Added a new $keep_params setting, which "passes through" non-Qdig
+  HTTP GET parameters. (Requested by David B. Nagle.)
+Added an option to left-justify captions. (Suggested by ZATZAi.)
+The thumbnail filename prefix now includes the thumbnail size.  Now when you
+  change thumbnail size new thumbnails will automatically be generated.
+Added capability to inject settings into Qdig via a qdig_settings() function.
+  (Requested by David B. Nagle.)
+Now no captions directory is created if $touch_captions is set to FALSE.
+Reworked the Security Check code.
+Added the rm_tree.php script to the distribution.
+
+2004-12-18
+Added capability to break out of a frameset.  It's enabled by default.
+Added Robin Rainton's code for converting each thumbnail in its own request.
+  Now when thumbs need to be converted the page appears quickly and the
+  thumbs appear one-by-one as they're converted.
+Now only convert the requested size of a resized image unless the option
+  to convert individually ($cnvrt_alt['indiv']) is turned off.  If it's
+  off, all images in the directory are converted to of all enabled sizes.
+Added code to disable thmb_onfly when gallery is not stand-alone.  Qdig needs
+  to be requested directly for it to work (because headers are already sent).
+Improved gdVersion() function and the corresponding diagnostic message.  Now
+  if phpinfo() is disabled the script works appropriately.  Also now don't use phpinfo()
+  unless necessary.  If GD extension is loaded and  phpinfo() is disabled, settle for
+  GD v1 rather than no GD at all.
+Setting $thmb_enable to FALSE disables thumbs view more effectively now.
+Much minor code cleanup.  Improved HTML Header.  Moved some settings.
+Added new HTML Header CSS settings to put a border around the displayed
+  image with configurable color and width.
+Added a couple of language settings.
+Added configurable attributes for the displayed-image's border.
+Added new feature to turn off IE's image toolbar in stand-alone galleries.
+Added new HTML Header CSS setting to put a logo image in the lower-right
+  corner (or wherever, since the location is configurable).
+
+2004-11-26
+Merged qdig-devel 20041126:
+Improved INSTALL.txt.
+Added a setting to admin.php for specifying the location of the Qdig script.
+Improved admin.php Win32 compatibility.
+Added a $caption_nl2br setting to automatically insert <br /> tags in captions.
+Improved reverse-sorting behavior of subdirectories.
+Improved XHTML compliance.
+Added capability to break out of a frameset.  It's enabled by default.
+
+2004-06-25
+Merged qdig-devel 20040623:
+Added a setting so Image links may be sorted by date.
+Added a setting to specify a background image.
+Profile data may be stripped from converted images to reduce file size.
+Security violations now produce informative message output rather than
+  the old way (a blank page with an HTML comment).
+A maximum number of characters in an image name and / or pathname may be set.
+There's a new $extra_paranoia setting, which increases sensitivity to '..'
+  within filenames and pathnames.
+There are new options to ignores "dotfiles" and "dotdirs", which are files
+  and directories that start with '.'.
+You may enable a Cache-Control HTML header tag and specify the expiration time
+  for certain servers that cause thumbnail images to be repeatedly reloaded.
+You can specify directory names that will be ignored as gallery directories.
+You can specify image names that will not be displayed in galleries.
+There's a new setting to ignore images in the root (Main) directory, which
+  forces a subdirectories-only gallery.
+You can specify extra parameters in URLs generated by Qdig, which can
+  sometimes be useful for an embedded gallery.
+Plenty of code cleanup: Streamlined urlPath() function. Removed splitPath()
+  function. Security improvements.  Optimization.
+
+2004-06-16
+Improved checkForUpdir() and  urlPath() functions.
+Fixed bug in adminLink() function that broke the link.  (Sorry that happened.)
+Added a diagnostic message to show dirname($php_self).
+
+2004-05-28
+Improved code that determines the name of the $qdig_files "top directory" so it
+  doesn't appear  as a gallery directory if it's in a $chroot_dir directory.
+
+2004-05-26
+Changed <font> tags into <span> tags for improved XHTML compatibility.
+Added a setting to set a full URL to the admin.php script.
+
+2004-05-24
+Added some HTML header Language Settings (language code and character set).
+Fixed / improved the diagnostic messages.
+
+2004-05-23
+Added a new Server Compatibility setting that inserts a Cache-Control <meta>
+  tag to avoid repeated reloading of thumbnail images  on certain servers.
+Got rid of is_executable check due to incompatibility with some servers and
+  simplified the code that checks for Image Magick or GD and picks one.
+
+2004-05-05
+Added an image counter language setting for 'of' in "x of n" counters.
+
+4/28/2004
+Released the qdig-devel release 20040318 as Qdig 1.2.0.  Here are the
+  changes relative to Qdig 1.1.3:
+Embedded the icon directly into the script.
+Added an option to put qdig-camera now-embedded icon in DirNav links.
+Stopped using array_key_exists() function to improve compatibility.
+Changed the Sensible Default image conversion method for Win32 to GD.
+Added compatibility setting to add extra "s to exec() commands on Win32.
+Code Cleanup.  Removed some redundant code.
+Added a link on a page to its corresponding admin.php caption-edit page.
+  This is a significant new feature for Qdig.
+Adapted admin.php so it returns to the image display page.
+Code cleanup of admin.php (single-quotes to double-quotes, etc.).
+Added some debugging messages to help determine if the user has followed
+  the instructions for establishing the writable tree or not.
+Renamed $debug_mode to $diag_messages to mitigate perception of "bugs".
+Code cleanup.  Changed Admin-link code to a adminLink() function.
+Updated the documentation to prepare for a stable release.
+Improved/debugged integration between index.php and admin.php.
+
+2004-04-23
+Code cleanup.  Fixed "x of n" bug for singleton image.
+
+2004-04-17
+Added new setting for placing the caption above or below the image.
+
+2004-04-15
+Upgraded Document Type for stand-alone gallery from HTML 4.01 to XHTML 1.0.
+
+2004-04-14
+Added option to set the width of the Directory Navigation Row.
+
+4/6/04
+Minor code cleanup.
+
+3/30/04
+Directory names may now include the apostrophe character.
+
+3/29/04
+Clarified the purpose of the admin.php script in INSTALL.txt and admin.php.
+
+3/28/04
+Added options to reverse the sort order of directories and/or images.
+
+3/19/04
+Deleted prepGallery.sh, since it is no longer necessary.
+Added touchDirs.sh, which is a simple utility to set all of the
+  subdirectories in a directory to the same date and time.
+
+3/18/04
+Released the qdig-devel release 20040318 as Qdig 1.1.  Here are the
+  changes relative to Qdig 1.05:
+By far the biggest improvement is the capability to keep writable
+  files and directories in a single, separate directory tree.
+Now directories are created using a new mkRecursiveDir() function.
+The file-writing code is reworked.  Now captions and converted files
+  are in separate directories, which is helpful in a few ways.
+Added new cleanPath() function.
+Added $check_security security paranoia setting.
+Some redundant code has been removed.
+Changes were made to improve security.
+Added an option to disable creating empty .txt caption files.
+Rewrote INSTALL.txt to reflect the new, easier installation procedure.
+Updated README.txt to reflect changes it was last brought up to date.
+Improved the default behavior when an image or path is requested that
+  doesn't exist.  Now now unknowns are ignored.
+Now if GD is used for conversion, *.bmp format files are ignored.
+A security warning is provided in case the root directory of the
+  writable tree is left world-readable.  This can be disabled.
+Added $ignore_dir_links and $ignore_img_links configuration settings
+  so now you can enable following of symlinks now.  The side-effect
+  of this is an ability to have private galleries.
+Now HTML header/footer suppression can be forced or auto-detected.
+Now you can force the GD version in case phpinfo() is disabled.
+Added a new Debug Mode to help with troubleshooting.
+Improved, especially for Win32, code that checks for Image Magick / GD.
+
+3/18/04
+Reworked the debugging messages so their output takes up fewer lines.
+Debug mode is enabled with simply $debug_mode = TRUE now.
+Removed the option to place image conversion messages above the gallery.
+Now all image conversion and debugging messages appear below the gallery.
+
+3/16/04
+Backported debug mode from the development version of the script.
+
+3/11/04
+Replaced TODO.txt list of items with a note referring to the beta version.
+
+3/4/04
+New option: placement of the image conversion messages.  Default is bottom.
+Code cleanup.  Further work on Full-Size link bug.
+
+3/3/04
+Tweaked default settings, including changing `Original' to `Full Size'.
+Fixed bug where hyperlinking the displayed image to the Full-Sized version
+  (feature that was added 12/17) was broken.
+
+2/25/04
+Fixed behavior where sometimes caption text would not be displayed.
+By popular demand, added a new setting to locate image links either above
+  or below the displayed image.  Sensible-default setting is below for
+  now, to accommodate large galleries and generally minimize scrolling.
+
+12/26/03
+Re-badged release 20031224 as version 1.0.
+Created a new qdig-devel tree to use for development releases.
+
+12/24/03
+Code cleanup.  Various minor clarifications, etc.
+
+12/20/03
+New chroot feature:  Now you can set a directory below the directory of the
+  calling script to be the topmost directory of a gallery tree.  This should
+  help people who are including a gallery within another script.  This is
+  in addition to the capability of chrooting single-directory galleries.
+
+12/19/03
+Improved the behavior of singleton images.  Now viewing a singleton should be
+  the same as an image among others, but without prev/next first/last links.
+Misc code cleanup, mostly on settings layout.
+
+12/18/03
+All temporary image sizes now link back to the default-view size.
+
+12/17/03
+Added error_reporting setting to admin.php script (for suppressing Notices).
+New setting: Now having the displayed image link to the next image is optional.
+New setting: Now an image can be hyperlinked to the original, which in turn
+  links back to the default resized version (similar to some other galleries).
+When you view an Original image (via the `Original' link in a Navigation
+  Row) it's similarly linked back to the default resized version now.
+
+12/10/03
+Created a new gdVersion() function to determine the GD version (i.e. 1 or 2).
+Eliminated 'new_ver' setting and otherwise improved the GD conversion code.
+Image conversion messages now tell which conversion method was used.
+Miscellaneous code cleanup.
+The script now gracefully tries to use `convert', then tries GD.
+
+12/6/03
+Added visited-link color to header CSS style.  Retouched some variables.
+
+12/5/03
+Improved comments for GD image conversion settings.
+Reworked image conversion message output.
+Move `imagedestroy($src_img);' line up so GD conversion will use less RAM.
+
+10/18/03
+Linking back to the first image from the last one is now optional.
+Code cleanup of image conversion code."
+
+10/17/03
+Improved GD image conversion.  Fixed image alt-tag bug.
+Modified checkForUpdir function again.  Now a path (i.e. Qwd=XXX) must either
+  be blank or start with a '.'.
+
+10/12/03
+Modified checkForUpdir function to test if the string starts with '/'.
+
+10/9/03
+prepGallery.sh error messages now go to stderr instead of stdout.
+Changed default thumbnail size to 30 to support larger galleries by default.
+ 
+10/1/03
+Code cleanup: Improved color settings.  Improved style strings' logic.
+
+9/22/03
+Misc. code cleanup.
+
+9/21/03
+Improved single-directory gallery behavior.
+Added support for image conversion using GD instead of Image Magick.
+
+9/11/03
+Fixed empty-gallery behavior and continued work on empty-directory behavior.
+
+9/10/03
+Created new Directory Navigation language settings.
+Improved empty-directory behavior.
+You can now create directories in admin.php.
+
+9/9/03
+Added some color scheme suggestions.
+Lots of code cleanup:  Created $reqd_image array variable and switched to
+  {curly syntax} for many variables within heredoc strings.
+
+9/8/03
+Improved the way directories-only pages are presented.
+Created a Color Settings section and added some sample color schemes.
+
+9/7/03
+Code cleanup:  Tested many settings combinations and fixed several bugs.
+Directory Navigation variables are now a single array variable.
+Control Bar variables are now a single array variable.
+Fixed image-order bug that crept into the last release.  (Sorry about that.)
+New capability:  Subdirectories can be isolated as individual galleries now.
+  If you disable Directory Navigation, then each subdirectory gallery will
+  appear stand-alone.  Linking to a gallery links to that gallery only.
+
+9/6/03
+Code cleanup: Switch to array variables where appropriate, etc.
+Fixed bug where only one subdir is displayed if there are duplicate mtimes.
+
+9/5/03
+Fixed sorting of directories by age, so now it works as intended again.
+Messages generated by image conversion now output within the gallery table.
+
+9/4/03
+Added example $convert_cmd for Win32 users.
+Fixed Control-Bar-won't-hide bug.
+Reworked foreach() loops for better performance.
+Improved Win32 compatibility.
+
+8/29/03
+Fixed bug where the Control Bar wouldn't appear in a single-directory gallery.
+Fixed bug where a smaller-than-default temporary-image (Qtmp) would not appear.
+
+8/24/03
+Improved function descriptions and renamed some functions.
+
+8/23/03
+Replaced four variables with a single $cnvrt_thmb[] array variable.
+Rearranged functions so the ones that don't generate html are at the top.
+Added a language setting for messages generated at image conversion.
+New $cnvrt_indiv setting so alternate-sized images may be converted for
+  one image at a time, rather than in all images at once.
+General cleanup.
+
+8/22/03
+Switched from file_exists() to is_file() in several places.
+Simplified getImageFilenames() and showImage() functions.
+New $is_readable_disa() and $file_exists_disa settings for work-around on
+  servers where is_readable() and / or $file_exists() functions are touchy.
+
+8/20/03
+Turned Directory Navigation code into a dirNav() function.
+General general script cleanup
+
+8/19/03
+Enable new First/Last language settings on navRow().
+Simplified imageCounter() function by removing $tag_bfr_lnk and $tag_aft_lnk.
+Same as above with firstLink(), prevLink(), nextLink(), lastLink() functions.
+Added logic to determine if thumbnail directory is readable.
+Replaced $thumbs_capable variable with $thumbs_writable and $thmbs_readable
+  so now thumbs may be created externally.
+General script cleanup
+
+8/14/03
+Worked on improving default behavior under various gallery scenarios.
+Some misc. code refinement and code formatting cleanup.
+
+8/13/03
+New settings to disable Control Bar links-style and default-size choosers
+Solidified Control Bar behavior under various settings scenarios.
+
+8/12/03
+Further refined the numbers view.  It's now more uniform and vertically compact.
+Added some space (2px) above the Links Style and Default View controls.
+Setting to disable thumbs now works again.
+Default text links view is now selectable among name, num, and none.
+
+8/11/03
+Improved the behavior of numeral links.
+
+8/10/03
+Layout Settings now precede Image Conversion Settings.  (Easier to configure?)
+Configurable header settings are now all in one array variable ($hdr).
+Header <style> colors (background, text, links) are now configurable settings.
+
+8/8/03
+Directory navigation up-one-level link is now optional.
+Lots of trivial code cleanup, plus some minor bug fixing.
+Wrapping to first / last image is now optional on Navigation Rows.  Not
+  wrapping seems less confusing, but the old behavior is still possible.
+
+8/6/03
+Added ability to disable header navigation links.
+Cleaned up code to get rid of Notices when E_NOTICE errors are enabled.
+Added an error_reporting() line to suppress Notices for now.
+
+8/4/03
+Implemented the new html header navigation links.
+Performed some misc. code cleanup to reduce Notices and fix minor bugs.
+
+7/29/03
+Visiting a non-thumbs-capable folder no longer changes the default links view.
+
+6/27/03
+Some continued work on improving the new html page title feature.
+
+6/7/03
+Added code to change the page title as visitor navigates through the gallery.
+
+6/6/03
+Moved header and footer for stand-alone gallery into functions.  Header and
+  footer are suppressed if the script is include()ed within another script.
+Cleaned up the Directory Navigation code a bit.
+
+5/27/03
+Now able to sort directories by either age or alphabetically.
+Added work-around inability to use is_executable() function in SAFE_MODE.
+
+5/26/03
+Now new / updated directories may be flagged with an asterisk.
+
+5/25/03
+New checkForImgs() function to see if a directory has at least one image.
+The checkForDirs() function now ignores links and requires readability.
+
+5/24/03
+Reworked getImageFilenames() getDirectoryNames() functions.
+New configurable delimiter between path elements
+Rearranged global variables for consistency among functions.
+
+5/23/03
+Added style settings for font size and changed "up one level" label.
+Improved logic and error reporting in prepGallery.sh script.
+Updated description text at the top of the script.
+
+5/22/03
+If there are only subdirectories and not images to display, the subdirectory
+  links are separated with a <br /> so they appear as a centered column.
+showImage() now just bails if there is no image to show.
+showFooterRow() now just bails if there is nothing to show.
+Now no display area table is created if there's nothing to put in it.
+Fixed footer display bug when their dirs but not images.
+
+5/21/03
+New navOrig() function, which builds a link to the original version of a
+  resized image for a Navigation Row if such an original exists.
+New Super-Sensible Default Settings(tm) that don't use much disk space and
+  provide a link to the original image.  (Based on Qdig user feedback.)
+
+5/20/03
+Mostly continued to refine the Directory Navigation code.
+Enabled small-text option for Directory Navigation row.
+Added checkForDirs() function.  Now only directories with images and / or
+  subdirectories appear in the Directory Navigation row.
+Now works better when there are just directories and no images in the
+  gallery root.  Also works better when there are lots of directories.
+Now using umask() in admin.php script, but still one chmod() left.
+Reworked the prepGallery.sh script so if you don't have enough
+  permissions, it bails without changing anything.
+
+5/19/03
+Created a script, prepGallery.sh, to ease setting of file/directory
+  attributes on a gallery tree with or without root capabilities.
+Updated INSTALL.txt to reflect an easier installation procedure
+  and add the reference to the new prepGallery.sh shell script.
+
+5/18/03
+Now distributing a separate .zip file with DOS-formatted text files.
+Simplified Directory Navigation into one cell instead of three.
+Lots of work on encoding path URLs.  NS4 users will appreciate it.
+  Added urlPath() functions and $pwd_url variable, etc.
+Updated INSTALL.txt, also to deal with special characters in names.
+Changed default view to numbers-links if not thumbs-capable.
+
+5/17/03
+Mostly worked on continuing to integrate the new subdirectory code.
+Set a very-slightly-gray background color for stand-alone page.
+Added configurable settings for Directory Navigation controls.
+Changed some defaults slightly.  The controls you see will 
+  auto-adapt depending on whether subdirectories exist.
+Implemented new "Prefs" control to reduce screen clutter.
+Brought README.txt and INSTALL.txt more up-to-date.
+
+5/16/03
+Subdirs can now have spaces in their names.
+Added basic recursive directory navigation.  The gallery displays
+  the path to the current image and links to other directories.
+Renamed Navigation Row to Gallery Navigation Row to distinguish
+  it from Directory Navigation.
+Tweaked table width percentages in Gallery Navigation Row table.
+Only go to a subdirectory if it contains images.
+Add an "up one directory" link to subdirectories.
+
+5/15/03
+Changed image sizing labels.
+Added rudimentary subdirectory support.
+
+5/14/03
+Added capability of presenting actual uploaded images.
+Minor improvement to Navigation Row layout.
+
+05/09/03
+Fixed admin `&' bug.  It works hunky dorey now thanks to Lyndon.
+
+05/07/03
+Minor bug fixes and touch-up, mostly to controlView() function.
+Admin.php now works with register_globals Off on early PHP4.
+
+
+04/10/03
+Minor changes to avoid Warnings when error_reporting is set high.
+
+02/01/03
+New easier default base_dir, web_dir settings in admin.php.
+
+01/11/03
+Got rid of $img_sz_nav_titles and $img_sz_control_titles variables.
+
+01/10/03
+Changed default-size setting to use a size number instead of letter.
+Changing size label text (i.e. language setting) is now much easier.
+
+01/09/03
+Began making image sizing more adaptable and less language-dependent.
+Converted from "short PHP tags" to normal-type tags in admin.php.
+Got rid of $img_sz_prefixes[] variable (that was a kluge).
+Converted controlSize() and navSize() functions to use looping.
+Each of the image size selector labels can now be enabled/disabled.
+
+01/07/03
+Reworked exec() so it doesn't wrap to improve Win32 compatibility.
+Switched from SCRIPT_NAME to PHP_SELF for Win32 compatibility.
+
+01/03/03
+Removed binary (phpfilefarm tarball) from the distribution.
+
+01/01/03
+Switched to heredoc-type strings in several places in the script.
+Reduced the number of '$str .=' lines by wrapping concatenation lines.
+  (More changes to improve efficiency.)
+  (File size shrank by 2.3K.  Output pages are smaller, too.)
+Added capability to disable HTML in Captions.
+
+12/31/02
+Switched from printf() to echo statements.
+Refinement of concatenated strings to hopefully speed parsing.
+
+12/30/02
+Switched to using empty() function where applicable.
+Updated the description text block.
+Changed to `} else' to match PEAR standard.
+Fixed doc strings to match phpdoc standard.
+Switched to using tabs instead of spaces for indenting (shrank by 6.2K).
+Using a better way to print the caption than using include() as before.
+Functions that printed directly now now return values.  (Major change)
+Now concatenating text instead of using variables inside double-quoted strings.
+  This was supposed to improve efficiency.
+  
+12/29/02 - Fixed special-characters issue that resurfaced due to reformatting.
+12/28/02 - Remove lines from header.  Began adapting admin.php so it's
+           useful for Qdig-specific or general-purpose use.
+12/27/02 - More clarification of settings and variable names.
+12/26/02 - Added version variable.  Moved image conversion variable settings
+           so they're together.  Changed some variable names.  Reversed order
+           in CHANGELOG.txt.  Rearranged more settings for clarity.
+12/23/02 - Changed HTML header.  Some comment changes and spelling corrections.
+12/21/02 - Now encoding ampersands in URLs for compatibility with (XHTML)
+           standards.  Updated INSTALL.txt to reflect changes in the script.
+12/20/02 - Added safety checks to see if converted images directory is
+           available.  Consolidated navigation variables into a single array.  
+12/19/02 - Added settings to disable presenting the XL, L, and M size options.
+           More code cleanup for consistence and bug squashing.
+12/18/02 - Code cleanup for consistency and minor bug squashing.  Twiddled
+           with font size and alignment in footer row.
+12/12/02 - Reformatted script for fewer lines of code.  Renamed project to
+           Qdig.  Now detects presence of favicon.
+12/11/02 - Moved visitor-selectable default view to control bar and created
+           a one-time alternate size component to navigation bar. Added
+           misc. safety checks.  Misc. bug cleanup and tweaking.
+12/10/02 - Improved resizing functions.  Added visitor-selectable default 
+           image size to navigation bar.
+12/09/02 - Added a couple of security checks.  Created function to generate
+           alternate-sized images.  Added visitor-controllable "links view"
+           selection of thumbs/names/numerals to the control bar.
+12/08/02 - Now when filenames are used for text links they're displayed in
+           a sidebar to the left of the image area.  New first image and
+           last image links (`|<<' and `>>|') for the nav bar.  Started on
+           a "Control Bar," which will display the location (subdir), some
+           visitor-configurable settings, and the `site home' link.
+12/07/02 - Made the settings section less verbose.  Zapped one more special-
+           character bug.  Added some security checks.
+12/06/02 - Reformatted the script to make it easier to read.  Reviewed and
+           corrected global variable usage.  Developed an auto-wrapping
+           feature for thumbnail and text numeral  links (not yet useful
+           for filename text links).
+12/05/02 - Created a function to get the image number.  Rearranged variables
+           so functions only use globals when it makes sense.  Added filename
+           option for text image links.  Added "small text" option for text
+           image links.  Fixed a few more special-characters bugs.
+12/04/02 - Now passing image names instead of image numbers in URLs, so
+           the images are "bookmarkable".  Added directory support in URL
+           in preparation for subdir support.  Switched from while() to
+           foreach() loops in imageLinks functions.  Image list is now
+           sorted alphabetically.  Fixed nasty `slashes' problem.
+12/03/02 - Attended to various detail issues.  Renamed / created variables
+           for clarity.  Improved script layout for ease-of-use.  No longer
+           sometimes creating empty navigation tables.  Fixed special-char-
+           acters bug using rawurlencode() for image src="" attributes.
+12/02/02 - Added Windows bitmap (.bmp) support.  Changed from single-quotes
+           to double-quotes around `convert' parameters.
+12/01/02 - Created a navigationRow function using tables.  Simplified out
+           section.  Added lots of user configuration settings. Adapted
+           phpFileFarm to use as a web interface to the gallery.
+11/29/02 - Added optional thumbnail prefixes to help avoid accidental over-
+           writing of files.  Added caption support.  Clarified comments.
+           Now automatically works on both older and newer versions of PHP.
+11/28/02 - Added to README.txt.  Fixed minor `no image specified' bug.
+           Added copyright lines.  Now checking for directory writability
+           creating (or displaying) thumbnail images.
+11/26/02 - Tidied up output and script layout.  Now displays a single
+           image properly.  Created homeLink() function.  Added comments
+           to ease troubleshooting.  Added `No image' message.
+11/25/02 - Created functions to read images from dir and create
+           thumbnails.  Added README.txt example setup to deal with
+           permissions issues.  Now handling spaces in filenames.
+11/24/02 - Created script.
+
+$Id: CHANGELOG.txt,v 1.111 2007/02/11 06:28:25 haganfox Exp $
